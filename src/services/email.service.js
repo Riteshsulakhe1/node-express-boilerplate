@@ -16,14 +16,7 @@ const getTransport = async () => {
   const transport = nodemailer.createTransport(emailConfig);
   return transport;
 };
-const transport = getTransport();
-/* istanbul ignore next */
-// if (config.env !== 'test') {
-//   transport
-//     .verify()
-//     .then(() => logger.info('Connected to email server'))
-//     .catch(() => logger.warn('Unable to connect to email server. Make sure you have configured the SMTP options in .env'));
-// }
+// const transport =  getTransport().then(data=>console.log('data',data));
 
 /**
  * Send an email
@@ -34,7 +27,7 @@ const transport = getTransport();
  */
 const sendEmail = async (to, subject, text) => {
   const msg = { from: config.email.from, to, subject, text };
-  await getTransport().sendMail(msg);
+  (await getTransport()).sendMail(msg);
 };
 
 /**
@@ -70,7 +63,7 @@ If you did not create an account, then ignore this email.`;
 };
 
 module.exports = {
-  transport,
+  // transport,
   sendEmail,
   sendResetPasswordEmail,
   sendVerificationEmail,
