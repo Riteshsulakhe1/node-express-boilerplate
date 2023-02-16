@@ -46,11 +46,9 @@ const userSchema = mongoose.Schema(
     },
     orgId: {
       type: null | mongoose.SchemaTypes.ObjectId,
-      default: null
     },
     invitedBy: {
       type : null | mongoose.SchemaTypes.ObjectId,
-      default: null
     }
   },
   {

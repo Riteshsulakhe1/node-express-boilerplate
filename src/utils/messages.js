@@ -1,4 +1,4 @@
-export const taskMsg = {
+const taskMsg = {
     created: 'Task created successfully',
     updated: 'Task updated successfully',
     deleted: 'Task deleted successfully',
@@ -7,14 +7,25 @@ export const taskMsg = {
     blocked: 'Task blocked successfully'
 };
 
-export const storyMsg = {
+const storyMsg = {
     created: 'Story created successfully',
     updated: 'Story updated successfully',
     deleted: 'Story deleted successfully',
     completed: 'Story completed successfully',
 };
 
-export const projectMsg = {
+const projectMsg = {
     created: 'Project created successfully',
     created: 'Project settings updated successfully',
+};
+
+const orgMsg = {
+    created: 'Organization created successfully'
+}
+
+module.exports = {
+    taskMsg,
+    storyMsg,
+    projectMsg,
+    orgMsg
 };

@@ -22,6 +22,10 @@ const ProjectSchema = mongoose.Schema({
         type: Array,
         default: []
     },
+    orgId: {
+        type: mongoose.SchemaTypes.ObjectId,
+        required: true
+    }
 },{timestamp: true});
 ProjectSchema.plugin(toJSON);
 

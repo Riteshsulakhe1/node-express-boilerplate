@@ -3,7 +3,8 @@ const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
 const { taskService } = require('../services');
 const {Types} = require('mongoose');
-const messages = require('../utils/taskMessages');
+const messages = require('../utils/messages').taskMsg;
+
 /**
  * TO CREATE TASK
  */
