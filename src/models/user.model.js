@@ -44,6 +44,14 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    orgId: {
+      type: null | mongoose.SchemaTypes.ObjectId,
+      default: null
+    },
+    invitedBy: {
+      type : null | mongoose.SchemaTypes.ObjectId,
+      default: null
+    }
   },
   {
     timestamps: true,

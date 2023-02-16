@@ -1,54 +1,83 @@
-const mongoose =require('mongoose');
-const {toJSON} =  require('./plugins');
-const {taskType,taskStatus,taskPriority} =require('../config/task');
+const mongoose = require('mongoose');
+const { toJSON } = require('./plugins');
+const { taskType, taskStatus, taskPriority } = require('../config/task');
 
-const TaskSchema = mongoose.Schema({
-    title:{
-        type: String,
-        required:true,
-        index:true
+const TaskSchema = mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      index: true,
     },
-    description:{
-        type:String,
-        default: ''
+    description: {
+      type: String,
+      default: '',
     },
     type: {
-        type:String,
-        required:true,
-        default: taskType.TASK,
-        enum: [taskType.TASK,taskType.BUG]
+      type: String,
+      required: true,
+      default: taskType.STORY,
+      enum: [...Object.values(taskType)],
     },
     status: {
-        type:String,
-        required:true,
-        enum:[...Object.values(taskStatus)],
-        default: taskStatus.TO_DO
+      type: String,
+      enum: [...Object.values(taskStatus)],
+      default: taskStatus.TO_DO,
     },
     priority: {
-        type:String,
-        // required: true,
-        enum: [...Object.values(taskPriority)],
-        default: taskPriority.MEDIUM
+      type: String,
+      enum: [...Object.values(taskPriority)],
+      default: taskPriority.MEDIUM,
     },
-    createdBy:{
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'User',
+    reportedBy: {
+      type: String,
+      ref: 'User',
     },
-    assignedTo:{
-        type: String,
-        // mongoose.SchemaTypes.ObjectId,
-        ref: 'User',
-        default:''
+    assignedTo: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'User',
+      default: '',
     },
-    assignedBy:{
-        type: String,
-        // mongoose.SchemaTypes.ObjectId,
-        ref: 'User',
-        default:''
+    assignedBy: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'User',
+      default: '',
+    },
+    flag: {
+      type: Boolean,
+      default: false,
+    },
+    parentId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Task',
+      default: '',
+    },
+    startDate:{
+        type: Date,
+        default: new Date(),
+    },
+    endDate:{
+        type: Date,
+        default: new Date(),
+    },
+    estimateInDays: {
+        type: Number,
+        default: 0
+    },
+    attachments: {
+        type: Array,
+        default: [] // // Will implement this feature later
+    },
+    linkedIssues: {
+        type: Array,
+        default: [] // // Will implement this feature later
+        // eg [{type: '', taskId: ''}] // type refere from config/task => linkedIssueType
     }
-},{timestamps: true});
+  },
+  { timestamps: true }
+);
 
 TaskSchema.plugin(toJSON);
 
-const Task = mongoose.model('Task',TaskSchema);
+const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;
