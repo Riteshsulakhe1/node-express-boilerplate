@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const createOrganization = {
     body: Joi.object().keys({
-        name: Joi.string().required,
+        name: Joi.string().required(),
     })
 };
 

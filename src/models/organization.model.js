@@ -8,7 +8,7 @@ const OrganizationSchema = mongoose.Schema(
       required: true,
     },
     adminId: {
-      type: mongoose.SchemaTypes.objectId,
+      type: mongoose.SchemaTypes.ObjectId,
       required: true,
     },
   },
