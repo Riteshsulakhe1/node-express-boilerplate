@@ -12,7 +12,7 @@ const OrganizationSchema = mongoose.Schema(
       required: true,
     },
   },
-  { timestamp: true }
+  { timestamps: true }
 );
 
 OrganizationSchema.plugin(toJSON);

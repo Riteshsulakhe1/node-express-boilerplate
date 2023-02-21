@@ -6,14 +6,16 @@ const taskController = require('../../controllers/task.controller');
 
 const router = express.Router();
 
-router.route('/')
-.post(auth(),validate(taskValidation.createTask),taskController.createTask)
-.get(auth(),taskController.getTaskByUserId);
+router
+  .route('/')
+  .post(auth(), validate(taskValidation.createTask), taskController.createTask)
+  .get(auth(), taskController.getTaskByUserId);
 
-router.route('/:taskId')
-.get(auth(),taskController.getTaskById)
-.put(auth(), validate(taskValidation.createTask),taskController.updateTaskById)
-.delete(auth(),taskController.deleteTaskById)
+router
+  .route('/:taskId')
+  .get(auth(), taskController.getTaskById)
+  .put(auth(), validate(taskValidation.createTask), taskController.updateTaskById)
+  .delete(auth(), taskController.deleteTaskById);
 
 module.exports = router;
 
@@ -21,7 +23,7 @@ module.exports = router;
  * @swagger
  * tags:
  *   title: string
-*    descrition: string 
+ *    descrition: string
  *   type: task (Optional & default value from server is "task" & accepted values task/bug)
  *   status: to do (Optional & default value from server is "to do" & accepted values are to do/in progress/ready for testing/done)
  *   priority: medium (Optional & default value from server is "medium" & accepted values are low/medium/high)
@@ -65,7 +67,7 @@ module.exports = router;
  *     tags: [Tasks]
  *     security:
  *       - bearerAuth: []
- *     
+ *
  */
 
 /**
@@ -97,22 +99,22 @@ module.exports = router;
  *                 type: string
  *               type:
  *                 type: string
- *               status: 
+ *               status:
  *                  type:string
  *               priority
  *                  type:string
- * 
+ *
  *             example:
- *                  description": "task 1",
- *                  type: "task",
- *                   status: "to do",
- *                  priority: "medium",
- *                  assignedTo: "",
- *                  assignedBy: "",
- *                  title: "task1",
- *                  createdBy: "61a23c12b3820815b00b555a",
+ *                  title: task 1
+ *                  description: test task
+ *                  type: story/task/sub-task/bug  => any one of them
+ *                  status: "to do"
+ *                  priority: "medium"
+ *                  assignedTo: ""
+ *                  assignedBy: ""
+ *                  createdBy: "61a23c12b3820815b00b555a"
  *                  id: "62d9576f3a95982622597de4"
- * 
+ *
  *   delete:
  *     summary: Delete a task
  *     description: Logged in users can delete their task..

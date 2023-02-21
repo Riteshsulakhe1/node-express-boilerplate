@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 
 const ProjectSchema = mongoose.Schema({
     name: {
@@ -18,7 +18,7 @@ const ProjectSchema = mongoose.Schema({
         type: Array,
         default : [],
     },
-    lables: {
+    labels: {
         type: Array,
         default: []
     },
@@ -26,8 +26,9 @@ const ProjectSchema = mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         required: true
     }
-},{timestamp: true});
+},{timestamps: true});
 ProjectSchema.plugin(toJSON);
+ProjectSchema.plugin(paginate);
 
 const ProjectModel = mongoose.model('Project', ProjectSchema);
 module.exports = ProjectModel;

@@ -45,10 +45,12 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     orgId: {
-      type: null | mongoose.SchemaTypes.ObjectId,
+      type: String,
+      default: null
     },
     invitedBy: {
-      type : null | mongoose.SchemaTypes.ObjectId,
+      type : String,
+      default: null
     }
   },
   {

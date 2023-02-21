@@ -50,7 +50,9 @@ const deleteTask = async (taskId)=>{
  * @param {*} userId
  * @returns {[object]} task array 
  */
-const getUserTasks = async (userId)=> Task.find({createdBy:userId});
+const getUserTasks = async (userId, body)=> {
+    return Task.paginate({})
+};
 
 module.exports={
     createTask,

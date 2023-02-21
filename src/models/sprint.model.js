@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
-import {Status, } from '../config/sprint';
+const { toJSON, paginate } = require('./plugins');
+const {Status} = require('../config/sprint');
 
 const SprintSchema = mongoose.Schema({
     name: {
@@ -10,14 +10,15 @@ const SprintSchema = mongoose.Schema({
     durationInWeeks: {
         type: Number,
         default: 1,
+        required: false,
         enum: [1,2,3,4]
     },
     startDate: {
-        type: null | Date,
+        type: Date,
         default: null
     },
     endDate: {
-        type: null | Date,
+        type: Date,
         default: null
     },
     status: {
@@ -26,11 +27,20 @@ const SprintSchema = mongoose.Schema({
         default : Status.PENDING
     },
     completedAt: {
-        type: null | Date,
+        type: Date,
         default: null
+    },
+    projectId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Project'
+    },
+    isDefault : {
+        type: Boolean,
+        default: false
     }
-}, {timestamp: true});
+}, {timestamps: true});
 
 SprintSchema.plugin(toJSON);
+SprintSchema.plugin(paginate);
 const SprintModel = mongoose.model('Sprint', SprintSchema);
 module.exports = SprintModel;

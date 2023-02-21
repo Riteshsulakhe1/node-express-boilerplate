@@ -16,7 +16,10 @@ const storyMsg = {
 
 const projectMsg = {
     created: 'Project created successfully',
-    created: 'Project settings updated successfully',
+    updated: 'Project settings updated successfully',
+    unAuth: "you don't have access to create project. Please contact your admin",
+    keyAlreadyExist: 'Project key is already exist. Please use another one',
+    idRequired: 'Project id is required'
 };
 
 const orgMsg = {

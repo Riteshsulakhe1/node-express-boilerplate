@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { toJSON } = require('./plugins');
+const { toJSON, paginate } = require('./plugins');
 const { taskType, taskStatus, taskPriority } = require('../config/task');
 
 const TaskSchema = mongoose.Schema(
@@ -30,54 +30,64 @@ const TaskSchema = mongoose.Schema(
       default: taskPriority.MEDIUM,
     },
     reportedBy: {
-      type: String,
+      type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
+      required: true
     },
     assignedTo: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: String,
       ref: 'User',
-      default: '',
+      required: false,
+      default: ''
     },
     assignedBy: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: String,
       ref: 'User',
-      default: '',
+      required: false,
+      default: ''
     },
     flag: {
       type: Boolean,
       default: false,
     },
     parentId: {
-      type: mongoose.SchemaTypes.ObjectId,
+      type: String,
       ref: 'Task',
-      default: '',
+      required: false,
+      default: ''
     },
-    startDate:{
-        type: Date,
-        default: new Date(),
+    startDate: {
+      type: Date,
+      default: null,
     },
-    endDate:{
-        type: Date,
-        default: new Date(),
+    endDate: {
+      type: Date,
+      default: null,
     },
     estimateInDays: {
-        type: Number,
-        default: 0
+      type: Number,
+      default: 0,
     },
     attachments: {
-        type: Array,
-        default: [] // // Will implement this feature later
+      type: Array,
+      default: [], // // Will implement this feature later
     },
     linkedIssues: {
-        type: Array,
-        default: [] // // Will implement this feature later
-        // eg [{type: '', taskId: ''}] // type refere from config/task => linkedIssueType
-    }
+      type: Array,
+      default: [], // // Will implement this feature later
+      // eg [{type: '', taskId: ''}] // type refere from config/task => linkedIssueType
+    },
+    projectId: {
+      type: mongoose.SchemaTypes.ObjectId,
+      required : true
+    },
+    sprintId: {}
   },
   { timestamps: true }
 );
 
 TaskSchema.plugin(toJSON);
+TaskSchema.plugin(paginate);
 
 const Task = mongoose.model('Task', TaskSchema);
 module.exports = Task;
