@@ -22,11 +22,8 @@ module.exports = router;
 /**
  * @swagger
  * tags:
- *   title: string
- *    descrition: string
- *   type: task (Optional & default value from server is "task" & accepted values task/bug)
- *   status: to do (Optional & default value from server is "to do" & accepted values are to do/in progress/ready for testing/done)
- *   priority: medium (Optional & default value from server is "medium" & accepted values are low/medium/high)
+ *  name: Tasks
+ *  description: Create, update, delete and fetch tasks
  */
 
 /**
@@ -76,14 +73,14 @@ module.exports = router;
  *   get:
  *     summary: Get a task by taskId
  *     description: To fetch particular task by id.
- *     tags: [Task]
+ *     tags: [Tasks]
  *     security:
  *       - bearerAuth: []
  *
  *   put:
  *     summary: Update a task
  *     description: Logged in users can only update their own task..
- *     tags: [Users]
+ *     tags: [Tasks]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -118,7 +115,7 @@ module.exports = router;
  *   delete:
  *     summary: Delete a task
  *     description: Logged in users can delete their task..
- *     tags: [Users]
+ *     tags: [Tasks]
  *     security:
  *       - bearerAuth: []
  */

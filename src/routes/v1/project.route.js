@@ -48,11 +48,11 @@ module.exports = router;
  *                      example:
  *                          name: Task Manager
  *                          key: TM
- *          responses:
- *              "201":
- *                  description: Created
- *                  content:
- *                      application/json:
+ *      responses:
+ *          "201":
+ *              description: Created
+ *              content:
+ *                  application/json:
  *                      schema:
  *                          type: object
  *                          properties:
@@ -60,11 +60,11 @@ module.exports = router;
  *                                  $ref: '#/components/schemas/Project'
  *                              message: Project created successfully
  *
- *              "422":
- *                  description: User don't have access to create project (Only org admin have access)
+ *          "422":
+ *              description: User don't have access to create project (Only org admin have access)
  *
- *              "409":
- *                  description: Project key is already used. Please change the key
+ *           "409":
+ *              description: Project key is already used. Please change the key
  */
 
 /**
