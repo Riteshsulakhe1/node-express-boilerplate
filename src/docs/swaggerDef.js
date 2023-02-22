@@ -13,7 +13,7 @@ const swaggerDef = {
   },
   servers: [
     {
-      url: `http://localhost:${config.port}/v1`,
+      url: `https://task-manager-nodejs-xhzl.onrender.com/v1`, // Render url
     },
   ],
 };

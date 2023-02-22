@@ -1,5 +1,31 @@
 components:
   schemas:
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+        name: 
+          type: string
+        key: 
+          type: string
+        epics:
+          type: array
+        labels:
+          type: array
+        adminId:
+          type: string
+        orgId:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        name: Project 1
+        key: P1
+        adminId: 5ebac534954b54139806c100
+        orgId: 5ebac534954b54139806c144
+        epics: ['Project setup', 'Setup Route']
+        labels: ['Label 1']
+
     User:
       type: object
       properties:
