@@ -10,8 +10,8 @@ const router = express.Router();
 router.route('/').post(auth(), org.getUserOrg, validate(projectValidation.createProject), projectController.createProject);
 
 router
-  .route('/:projectId')
-  .put(auth(), org.getUserOrg, validate(projectValidation.updateProject), projectController.updateProject);
+    .route('/:projectId')
+    .put(auth(), org.getUserOrg, validate(projectValidation.updateProject), projectController.updateProject);
 
 module.exports = router;
 
@@ -24,8 +24,9 @@ module.exports = router;
 
 /**
  * @swagger
+ * 
  * /project:
- *    post:
+ *  post:
  *      summary: Create a project
  *      description: User (Organization admin) can create project.
  *      tags: [Projects]
@@ -70,7 +71,7 @@ module.exports = router;
 /**
  * @swagger
  * /project/{projectId}:
- *    put:
+ *  put:
  *      summary: Update project settings
  *      description: User can update project name, key, epics, labels
  *      tags: [Projects]
