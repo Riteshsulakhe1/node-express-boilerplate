@@ -24,51 +24,51 @@ module.exports = router;
 /**
  * @swagger
  * /project
- *  post:
- *      summary: Create a project
- *      description: User (Organization admin) can create project.
- *      tags: [Project]
- *      security:
- *          - bearerAuth: []
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *              schema:
- *                  type: object
- *                  required:
- *                      - name
- *                      - key
- *                  properties:
- *                      name:
- *                          type: string
- *                      key:
- *                          type: string
- *                  example:
- *                      name: Task Manager
- *                      key: TM
- *      responses:
- *       "201":
- *         description: Created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 project:
- *                   $ref: '#/components/schemas/Project'
- *                 message: Project created successfully
+ *      post:
+ *          summary: Create a project
+ *          description: User (Organization admin) can create project.
+ *          tags: [Project]
+ *          security:
+ *              - bearerAuth: []
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                  schema:
+ *                      type: object
+ *                      required:
+ *                          - name
+ *                          - key
+ *                      properties:
+ *                          name:
+ *                              type: string
+ *                          key:
+ *                              type: string
+ *                      example:
+ *                          name: Task Manager
+ *                          key: TM
+ *          responses:
+ *              "201":
+ *                  description: Created
+ *                  content:
+ *                      application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              project:
+ *                                  $ref: '#/components/schemas/Project'
+ *                              message: Project created successfully
  *                   
- *       "422":
- *         description: User don't have access to create project (Only org admin have access)
+ *              "422":
+ *                  description: User don't have access to create project (Only org admin have access)
  * 
- *       "409":
- *          description: Project key is already used. Please change the key
+ *              "409":
+ *                  description: Project key is already used. Please change the key
  */
 
 /**
  * @swagger
- * /project/:projectId
+ * /project/{projectId}
  *    put:
  *      summary: Update project settings
  *      description: User can update project name, key, epics, labels
