@@ -28,7 +28,7 @@ module.exports = router;
  *    post:
  *      summary: Create a project
  *      description: User (Organization admin) can create project.
- *      tags: [Project]
+ *      tags: [Projects]
  *      security:
  *          - bearerAuth: []
  *      requestBody:
@@ -73,7 +73,7 @@ module.exports = router;
  *    put:
  *      summary: Update project settings
  *      description: User can update project name, key, epics, labels
- *      tags: [Project]
+ *      tags: [Projects]
  *      security:
  *          - bearerAuth: []
  *      requestBody:
