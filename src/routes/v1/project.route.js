@@ -24,7 +24,6 @@ module.exports = router;
 
 /**
  * @swagger
- * 
  * /project:
  *      post:
  *          summary: Create a project
@@ -51,7 +50,7 @@ module.exports = router;
  *                          key: TM
  *          responses:
  *              "201":
-*                   description: Created
+ *                  description: Created
  *                  content:
  *                      application/json:
  *                      schema:
