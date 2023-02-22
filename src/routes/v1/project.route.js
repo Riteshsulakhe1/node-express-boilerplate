@@ -7,11 +7,14 @@ const org = require('../../middlewares/organization');
 
 const router = express.Router();
 
-router.route('/').post(auth(), org.getUserOrg, validate(projectValidation.createProject), projectController.createProject);
+router
+  .route('/')
+  .post(auth(), org.getUserOrg, validate(projectValidation.createProject), projectController.createProject)
+  .get(auth(), org.getUserOrg, projectController.getProjects);
 
 router
-    .route('/:projectId')
-    .put(auth(), org.getUserOrg, validate(projectValidation.updateProject), projectController.updateProject);
+  .route('/:projectId')
+  .put(auth(), org.getUserOrg, validate(projectValidation.updateProject), projectController.updateProject);
 
 module.exports = router;
 
@@ -49,22 +52,53 @@ module.exports = router;
  *                          name: Task Manager
  *                          key: TM
  *          responses:
- *              "201":
- *                  description: Created
- *                  content:
- *                      application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              project:
- *                                  $ref: '#/components/schemas/Project'
- *                              message: Project created successfully
+ *            "201":
+ *              description: Created
+ *              content:
+ *                application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    project:
+ *                      $ref: '#/components/schemas/Project'
+ *                    message: Project created successfully
  *
- *              "422":
- *                  description: User don't have access to create project (Only org admin have access)
+ *             "422":
+ *                description: User don't have access to create project (Only org admin have access)
  *
- *              "409":
- *                  description: Project key is already used. Please change the key
+ *             "409":
+ *                description: Project key is already used. Please change the key
+ *
+ *      get:
+ *          summary: Get list of project
+ *          description: It will fetch the list of projects with pagination
+ *          tags: [Projects]
+ *          security:
+ *              - bearerAuth: []
+ *          parameters:
+ *            - in: query
+ *              name: pageSize
+ *              schema:
+ *                type: number
+ *              description: page size in number eg. 10 (it will give 10 records in result)
+ *            - in: query
+ *              name: page
+ *              schema:
+ *                type: number
+ *              description: page number eg. 1 (it will give 1st page records in result)
+ *          example:
+ *              query: 'page=1&pageSize=10'
+ *          responses:
+ *            "200":
+ *              description: OK
+ *              content:
+ *                application/json:
+ *                schema:
+ *                  type: object
+ *                  properties:
+ *                    projects:
+ *                      $ref: '#/components/schemas/Project'
+ *
  */
 
 /**
@@ -96,10 +130,8 @@ module.exports = router;
  *                      example:
  *                          name: Project 1
  *                          key: p1
- *                          epics: [epic1]
- *                          labels: [label1]
- *
- *
+ *                          epics: ['epic1']
+ *                          labels: ['label1']
  *          responses:
  *              "200":
  *                  description: OK

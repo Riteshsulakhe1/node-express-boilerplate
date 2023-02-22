@@ -39,7 +39,23 @@ const updateProject = catchAsync(async (req, res) => {
   }
 });
 
+const getProjects = catchAsync(async (req, res) => {
+  if (req.organization) {
+    const filter = { orgId: req.organization.id };
+    const options = {
+      sortBy: 'createdAt',
+      limit: req.query.pageSize,
+      page: req.query.page,
+    };
+    const projects = await projectService.getProjects(filter, options);
+    res.status(httpStatus.OK).send({ projects });
+  } else {
+    res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ message: projectMsg.unAuth });
+  }
+});
+
 module.exports = {
   createProject,
   updateProject,
+  getProjects,
 };
