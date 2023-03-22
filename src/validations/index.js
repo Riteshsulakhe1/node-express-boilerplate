@@ -5,4 +5,5 @@ module.exports = {
   projectValidation: require('./project.validation'),
   taskValidation: require('./task.validation'),
   customValidation: require('./custom.validation'),
+  sprintValidation: require('./sprint.validation'),
 };

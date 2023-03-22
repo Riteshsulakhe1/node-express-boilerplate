@@ -26,6 +26,37 @@ components:
         epics: ['Project setup', 'Setup Route']
         labels: ['Label 1']
 
+    Sprint:
+      type: object
+      properties:
+        id:
+          type: string
+        name: 
+          type: string
+        status: 
+          type: string
+        durationInWeeks:
+          type: number
+        startDate:
+          type: date
+        endDate:
+          type: date
+        completedAt:
+          type: boolean
+        projectId:
+          type: string
+        isDefault:
+          type: boolean
+      example:
+        id: 5ebac534954b54139806c112
+        name: TM Sprint 1
+        status: Pending
+        projectId: 5ebac534954b54139806c100
+        durationInWeek: 1
+        startDate: 2023-02-20T16:15:15.828+00:00
+        endDate: 2023-02-20T16:15:15.828+00:00
+        isDefault: false
+
     User:
       type: object
       properties:

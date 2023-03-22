@@ -18,7 +18,7 @@ module.exports = router;
 
 /**
  * @swagger
- * /create:
+ * /org/create:
  *   post:
  *     summary: Create organization
  *     description: User can create only one organization.
@@ -33,4 +33,25 @@ module.exports = router;
  *             type: object
  *             required:
  *               - name
+ *             properties:
+ *               name:
+ *                type: string
+ *             examples:
+ *                name: 'My Org'
+ *     responses:
+ *       "201":
+ *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 org:
+ *                   name: My Org
+ *                   adminId: 63f39c937a3f396fc00509b0
+ *                   id: 63f39c937a3f396fc00509b0
+ *       "401":
+ *         $ref: '#/components/responses/Unauthorized'
+ *       "403":
+ *         $ref: '#/components/responses/Forbidden'
  */

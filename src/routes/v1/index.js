@@ -5,6 +5,7 @@ const docsRoute = require('./docs.route');
 const taskRoute = require('./task.route');
 const orgRoute = require('./org.route');
 const projectRoute = require('./project.route');
+const sprintRoute = require('./sprint.route');
 
 const config = require('../../config/config');
 
@@ -29,8 +30,12 @@ const defaultRoutes = [
   },
   {
     path: '/project',
-    route: projectRoute
-  }
+    route: projectRoute,
+  },
+  {
+    path: '/sprint',
+    route: sprintRoute,
+  },
 ];
 
 const devRoutes = [

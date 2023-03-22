@@ -46,10 +46,33 @@ const getTaskByUserId = catchAsync(async (req, res) => {
   res.status(200).send(tasks);
 });
 
+const getTasksBySprintId = catchAsync(async (req, res) => {
+  const filter = {
+    projectId: req.body.projectId,
+    sprintId: req.body.sprintId,
+  };
+  const options = {
+    // project: {
+    //   id: 1,
+    //   title: 1,
+    //   type: 1,
+    //   status: 1,
+    //   assignedTo: 1,
+    //   index: 1,
+    //   projectId: 1,
+    //   sprintId: 1,
+    // },
+    select: 'id title type status assignedTo index projectId sprintId',
+  };
+  const tasks = await taskService.getTasksBySprintId(filter, options);
+  res.status(httpStatus.OK).send({ ...tasks });
+});
+
 module.exports = {
   createTask,
   getTaskById,
   updateTaskById,
   deleteTaskById,
   getTaskByUserId,
+  getTasksBySprintId,
 };

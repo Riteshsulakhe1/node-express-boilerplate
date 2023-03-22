@@ -5,4 +5,5 @@ module.exports = {
   projectController: require('./project.controller'),
   orgController: require('./org.controller'),
   taskController: require('./task.controller'),
+  sprintController: require('./sprint.controller'),
 };

@@ -1,63 +1,69 @@
 const httpStatus = require('http-status');
-const { User ,Task} = require('../models');
+const { User, Task } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { objectId } = require('../validations/custom.validation');
 
 /**
  * To create new task
- * @param {*} taskBody 
+ * @param {*} taskBody
  * @returns {object} created task data
  */
-const createTask = async(taskBody)=> Task.create(taskBody);
+const createTask = async (taskBody) => Task.create(taskBody);
 
 /**
  * To get task by id
- * @param {*} taskId 
+ * @param {*} taskId
  * @returns {object} task data for taskId
  */
-const getTask = async(taskId)=> Task.findById(taskId);
+const getTask = async (taskId) => Task.findById(taskId);
 
 /**
- * 
+ *
  * @param {*} taskId id of the task to be updated
  * @param {*} updatedBody update task body
  */
-const updateTask = async(taskId, updatedBody)=>{
-    const task = await getTask(taskId);
-    if(!task){
-        throw new ApiError(httpStatus.NOT_FOUND, 'Task not found');
-    }
-    Object.assign(task, updatedBody);
-    await task.save();
-    return task;
+const updateTask = async (taskId, updatedBody) => {
+  const task = await getTask(taskId);
+  if (!task) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Task not found');
+  }
+  Object.assign(task, updatedBody);
+  await task.save();
+  return task;
 };
 
 /**
  * To delete task by ids
- * @param {*} taskId 
+ * @param {*} taskId
  */
-const deleteTask = async (taskId)=>{
-    const task = await getTask(taskId);
-    if(!task){
-        throw new ApiError(httpStatus.NOT_FOUND, 'Task not found');
-    }
-    await task.remove();
-    return task;
+const deleteTask = async (taskId) => {
+  const task = await getTask(taskId);
+  if (!task) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Task not found');
+  }
+  await task.remove();
+  return task;
 };
 
 /**
  * To get all the task of user by userId
  * @param {*} userId
- * @returns {[object]} task array 
+ * @returns {[object]} task array
  */
-const getUserTasks = async (userId, body)=> {
-    return Task.paginate({})
+const getUserTasks = async (userId, body) => {
+  // return Task.paginate({})
 };
 
-module.exports={
-    createTask,
-    getTask,
-    updateTask,
-    deleteTask,
-    getUserTasks
+const getTasksBySprintId = async (filter, options) => {
+  const tasks = await Task.paginate(filter, options);
+  return tasks;
+};
+
+module.exports = {
+  createTask,
+  getTask,
+  updateTask,
+  deleteTask,
+  getUserTasks,
+  getTasksBySprintId,
 };

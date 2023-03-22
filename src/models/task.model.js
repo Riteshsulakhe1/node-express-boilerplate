@@ -32,19 +32,19 @@ const TaskSchema = mongoose.Schema(
     reportedBy: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
-      required: true
+      required: true,
     },
     assignedTo: {
       type: String,
       ref: 'User',
       required: false,
-      default: ''
+      default: '',
     },
     assignedBy: {
       type: String,
       ref: 'User',
       required: false,
-      default: ''
+      default: '',
     },
     flag: {
       type: Boolean,
@@ -54,7 +54,7 @@ const TaskSchema = mongoose.Schema(
       type: String,
       ref: 'Task',
       required: false,
-      default: ''
+      default: '',
     },
     startDate: {
       type: Date,
@@ -79,9 +79,20 @@ const TaskSchema = mongoose.Schema(
     },
     projectId: {
       type: mongoose.SchemaTypes.ObjectId,
-      required : true
+      required: true,
     },
-    sprintId: {}
+    sprintId: {
+      type: String,
+      required: true,
+    },
+    sprintIds: {
+      type: Array,
+      ref: 'sprints',
+    },
+    index: {
+      type: Number,
+      required: false,
+    },
   },
   { timestamps: true }
 );
