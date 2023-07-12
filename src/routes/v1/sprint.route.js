@@ -17,6 +17,9 @@ sprintRouter
   .route('/getTasks')
   .post(auth(), validate(sprintValidation.getSprintTasks), getProjectById, taskController.getTasksBySprintId);
 
+sprintRouter
+  .route('/getBacklog')
+  .get(auth(), validate(sprintValidation.getSprints), getProjectById, sprintController.getBacklogIssues);
 module.exports = sprintRouter;
 
 /**

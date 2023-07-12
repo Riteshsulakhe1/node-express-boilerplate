@@ -30,78 +30,6 @@ const getSprintsByProjectId = async (projectId) => {
 };
 
 const getBacklogIssues = async (projectId) => {
-  //   const sprints = await getSprintsByProjectId(projectId);
-  //   const sprintIds = sprints.map((sprint) => sprint.id);
-  //   Task.aggregate({
-  //     $match: { sprintId: { $in: sprintIds } },
-  //   });
-
-  //   {
-  //     $lookup: {
-  //       from: 'statistic',
-  //       localField: '_id',
-  //       foreignField: 'driverId',
-  //       as: 'driver',
-  //     },
-  //   },
-  //   {
-  //     $unwind: {
-  //       path: '$driver',
-  //       preserveNullAndEmptyArrays: true,
-  //     },
-  //   },
-  //   {
-  //     $project: {
-  //       driver: {
-  //         $ifNull: [{
-  //           $concat: ['$driver.firstName', ' ', '$driver.lastName']
-  //         }, 'Technical']
-  //       },
-  //       entityId: 1,
-  //       message: 1,
-  //       meta: 1,
-  //       createdAt: 1,
-  //     },
-  //   },
-  //   {
-  //     $facet: {
-  //       total: [{
-  //         $count: 'createdAt'
-  //       }],
-  //       data: [{
-  //         $addFields: {
-  //           _id: '$_id'
-  //         }
-  //       }],
-  //     },
-  //   },
-  //   {
-  //     $unwind: '$total'
-  //   },
-  //   {
-  //     $project: {
-  //       data: {
-  //         $slice: ['$data', skip, {
-  //           $ifNull: [limit, '$total.createdAt']
-  //         }]
-  //       },
-  //       meta: {
-  //         total: '$total.createdAt',
-  //         limit: {
-  //           $literal: limit
-  //         },
-  //         page: {
-  //           $literal: ((skip / limit) + 1)
-  //         },
-  //         pages: {
-  //           $ceil: {
-  //             $divide: ['$total.createdAt', limit]
-  //           }
-  //         },
-  //       },
-  //     },
-  const limit = 5;
-  const skip = 0;
   const sprints = await Sprint.aggregate([
     {
       $match: {
@@ -112,70 +40,36 @@ const getBacklogIssues = async (projectId) => {
     {
       $lookup: {
         from: 'tasks',
-        // localField: 'id',
-        // foreignField: 'sprintId',
-        let: { sprintId: { $toObjectId: '$id' } },
+        localField: '_id',
+        foreignField: 'sprintId',
         as: 'tasks',
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                sprintId: '$$sprintId',
-              },
-            },
-          },
-          {
-            $project: {
-              id: 1,
-              title: 1,
-              type: 1,
-              status: 1,
-              assignedTo: 1,
-              projectId: 1,
-              sprintId: 1,
-              index: 1,
-            },
-          },
-        ],
       },
     },
     {
-      $replaceRoot: {
-        newRoot: {},
+      $project: {
+        _id: 1,
+        name: 1,
+        status: 1,
+        startDate: 1,
+        endDate: 1,
+        isDefault: 1,
+        projectId: 1,
+        tasks: {
+          $map: {
+            input: '$tasks',
+            as: 'task',
+            in: {
+              id: '$$task._id',
+              title: '$$task.title',
+              status: '$$task.status',
+              type: '$$task.type',
+              assignedTo: '$$task.assignedTo',
+              flag: '$$task.flag',
+            },
+          },
+        },
       },
     },
-    // {
-    //   $project: {
-    //     title: 1,
-    //     type: 1,
-    //     status: 1,
-    //     assignedTo: 1,
-    //     projectId: 1,
-    //     sprintId: 1,
-    //     index: 1,
-    //   },
-    // },
-    // {
-    //   $project: {
-    //     data: {
-    //       $slice: ['$tasks', skip, limit],
-    //     },
-    //     meta: {
-    //       total: '$tasks.id',
-    //       limit: {
-    //         $literal: limit,
-    //       },
-    //       page: {
-    //         $literal: skip / limit + 1,
-    //       },
-    //       pages: {
-    //         $ceil: {
-    //           $divide: ['$tasks.id', limit],
-    //         },
-    //       },
-    //     },
-    //   },
-    // },
   ]).exec();
   return sprints;
 };
