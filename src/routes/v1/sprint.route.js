@@ -20,6 +20,11 @@ sprintRouter
 sprintRouter
   .route('/getBacklog')
   .get(auth(), validate(sprintValidation.getSprints), getProjectById, sprintController.getBacklogIssues);
+
+sprintRouter
+  .route('/getBoard')
+  .get(auth(), validate(sprintValidation.getSprints), getProjectById, sprintController.getBoardIssues);
+
 module.exports = sprintRouter;
 
 /**

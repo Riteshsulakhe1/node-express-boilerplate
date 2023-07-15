@@ -1,6 +1,7 @@
 const { Sprint, Task } = require('../models');
 const { defaultSprintName, sprintSuffix, Status } = require('../config/sprint');
 const { Types } = require('mongoose');
+
 const createBacklogSprint = async (projectId) => {
   const body = {
     name: defaultSprintName,
@@ -13,7 +14,6 @@ const createBacklogSprint = async (projectId) => {
 
 const createEmptySprint = async (body, projectKey) => {
   const sprintCount = await getTotalSprintCount(body.projectId);
-  console.log('sprintCount', sprintCount);
   const sprintName = `${projectKey} ${sprintSuffix} ${sprintCount + 1}`;
   body.name = sprintName;
   const sprint = await Sprint.create(body);
@@ -74,9 +74,74 @@ const getBacklogIssues = async (projectId) => {
   return sprints;
 };
 
+const getBoardIssues = async (projectId) => {
+  const board = await Sprint.aggregate([
+    {
+      $match: {
+        projectId: Types.ObjectId(projectId),
+        status: {
+          $eq: Status.IN_PROGRESS,
+        },
+      },
+    },
+    {
+      $project:
+
+      {
+        _id: 1,
+        name: 1,
+        projectId: 1,
+        durationInWeeks: 1,
+        startDate: 1,
+        endDate: 1,
+      },
+    },
+    {
+      $lookup:
+
+      {
+        from: "tasks",
+        let: {
+          sprintId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$sprintId", "$$sprintId"],
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              title: 1,
+              type: 1,
+              status: 1,
+              assignedTo: 1,
+              flag: 1,
+            },
+          },
+          {
+            $group: {
+              _id: "$status",
+              tasks: {
+                $push: "$$ROOT",
+              },
+            },
+          },
+        ],
+        as: "board",
+      },
+    },
+  ]).exec();
+  return board;
+};
+
 module.exports = {
   createBacklogSprint,
   createEmptySprint,
   getSprintsByProjectId,
   getBacklogIssues,
+  getBoardIssues
 };

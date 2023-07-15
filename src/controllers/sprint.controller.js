@@ -30,8 +30,18 @@ const getBacklogIssues = catchAsync(async (req, res) => {
   }
 });
 
+const getBoardIssues = catchAsync(async (req, res) => {
+  if (req.project) {
+    const board = await sprintService.getBoardIssues(req.project.id);
+    res.status(httpStatus.OK).send(board);
+  } else {
+    res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ message: sprintMsg.projectIdMissing });
+  }
+});
+
 module.exports = {
   getSprints,
   createNewSprint,
   getBacklogIssues,
+  getBoardIssues
 };
