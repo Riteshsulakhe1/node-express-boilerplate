@@ -17,6 +17,14 @@ sprintRouter
   .route('/getTasks')
   .post(auth(), validate(sprintValidation.getSprintTasks), getProjectById, taskController.getTasksBySprintId);
 
+sprintRouter
+  .route('/getBacklog')
+  .get(auth(), validate(sprintValidation.getSprints), getProjectById, sprintController.getBacklogIssues);
+
+sprintRouter
+  .route('/getBoard')
+  .get(auth(), validate(sprintValidation.getSprints), getProjectById, sprintController.getBoardIssues);
+
 module.exports = sprintRouter;
 
 /**
