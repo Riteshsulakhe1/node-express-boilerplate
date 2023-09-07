@@ -47,6 +47,12 @@ const verifyEmail = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const getLoggedInUser = catchAsync(async (req, res) => {
+  console.log('refreshToken', req.body);
+  const loggedInUserWithAuthTokens = await authService.getLoggedInUserAndAuthTokens(req.body.refreshToken);
+  res.status(httpStatus.OK).send(loggedInUserWithAuthTokens);
+});
+
 module.exports = {
   register,
   login,
@@ -56,4 +62,5 @@ module.exports = {
   resetPassword,
   sendVerificationEmail,
   verifyEmail,
+  getLoggedInUser
 };

@@ -90,10 +90,36 @@ const verifyEmail = async (verifyEmailToken) => {
   }
 };
 
+/**
+ * Get Logged in user details with auth tokens by refresh token
+ * @param {*} refreshToken 
+ */
+const getLoggedInUserAndAuthTokens = async (refreshToken) => {
+  try {
+    const tokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
+    console.log('tokenDoc', tokenDoc);
+    const user = await userService.getUserById(tokenDoc.user);
+    console.log('user', user);
+    if (!user) {
+      throw new Error();
+    }
+    await tokenDoc.remove();
+    const tokens = await tokenService.generateAuthTokens(user);
+    console.log('tokens', tokens);
+    return {
+      user,
+      tokens
+    };
+  } catch (error) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate');
+  }
+}
+
 module.exports = {
   loginUserWithEmailAndPassword,
   logout,
   refreshAuth,
   resetPassword,
   verifyEmail,
+  getLoggedInUserAndAuthTokens
 };

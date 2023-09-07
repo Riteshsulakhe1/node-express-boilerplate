@@ -38,6 +38,9 @@ const getBacklogIssues = async (projectId) => {
       },
     },
     {
+      $sort: { 'createdAt': -1 }
+    },
+    {
       $lookup: {
         from: 'tasks',
         localField: '_id',
