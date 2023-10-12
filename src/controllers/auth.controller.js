@@ -48,7 +48,6 @@ const verifyEmail = catchAsync(async (req, res) => {
 });
 
 const getLoggedInUser = catchAsync(async (req, res) => {
-  console.log('refreshToken', req.body);
   const loggedInUserWithAuthTokens = await authService.getLoggedInUserAndAuthTokens(req.body.refreshToken);
   res.status(httpStatus.OK).send(loggedInUserWithAuthTokens);
 });

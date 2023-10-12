@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const { taskService } = require('../services');
 const { Types } = require('mongoose');
 const messages = require('../utils/messages').taskMsg;
+const taskProperties = require('../config/task');
 
 /**
  * TO CREATE TASK
@@ -52,20 +53,14 @@ const getTasksBySprintId = catchAsync(async (req, res) => {
     sprintId: req.body.sprintId,
   };
   const options = {
-    // project: {
-    //   id: 1,
-    //   title: 1,
-    //   type: 1,
-    //   status: 1,
-    //   assignedTo: 1,
-    //   index: 1,
-    //   projectId: 1,
-    //   sprintId: 1,
-    // },
     select: 'id title type status assignedTo index projectId sprintId',
   };
   const tasks = await taskService.getTasksBySprintId(filter, options);
   res.status(httpStatus.OK).send({ ...tasks });
+});
+
+const getTaskStaticProperties = catchAsync(async (req, res) => {
+  res.status(httpStatus.OK).send({ ...taskProperties });
 });
 
 module.exports = {
@@ -75,4 +70,5 @@ module.exports = {
   deleteTaskById,
   getTaskByUserId,
   getTasksBySprintId,
+  getTaskStaticProperties
 };

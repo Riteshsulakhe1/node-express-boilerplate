@@ -28,17 +28,20 @@ const labelInitials = {
   name: '',
 };
 
-const linkedIssueType ={
-    clones: 'clones',
-    clonedBy: 'is cloned by',
-    duplicates: 'duplicates',
-    duplicatedBy: 'is duplicated by',
-    blocks: 'blocks',
-    blockedBy: 'is blocked by'
+const linkedIssueType = {
+  clones: 'clones',
+  clonedBy: 'is cloned by',
+  duplicates: 'duplicates',
+  duplicatedBy: 'is duplicated by',
+  blocks: 'blocks',
+  blockedBy: 'is blocked by'
 };
 
 module.exports = {
   taskType,
   taskStatus,
   taskPriority,
+  epicInitials,
+  labelInitials,
+  linkedIssueType
 };
