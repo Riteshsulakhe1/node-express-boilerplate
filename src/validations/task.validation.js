@@ -15,15 +15,15 @@ const updateTask = {
     taskId: Joi.required().custom(objectId),
   }),
   body: Joi.object().keys({
-    title: Joi.string().required(),
+    title: Joi.string(),
     description: Joi.string(),
     type: Joi.string(),
     status: Joi.string(),
     priority: Joi.string(),
     assignedTo: Joi.string(),
     assignedBy: Joi.string(),
-    projectId: Joi.string().required(),
-    sprintId: Joi.string().required(),
+    projectId: Joi.custom(objectId),
+    sprintId: Joi.custom(objectId),
   }),
 };
 

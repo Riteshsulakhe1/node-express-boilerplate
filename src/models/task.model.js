@@ -82,7 +82,7 @@ const TaskSchema = mongoose.Schema(
       required: true,
     },
     sprintId: {
-      type: String,
+      type: mongoose.SchemaTypes.ObjectId,
       required: true,
     },
     sprintIds: {

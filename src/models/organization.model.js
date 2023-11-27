@@ -16,5 +16,13 @@ const OrganizationSchema = mongoose.Schema(
 );
 
 OrganizationSchema.plugin(toJSON);
+
+OrganizationSchema.statics.isUserAlreadyOwnAnOrg = async function (adminId) {
+  console.log('adminId==>', adminId);
+  const org = await this.findOne({ adminId });
+  console.log('org==>', org);
+  return org ? true : false;
+};
+
 const Organization = mongoose.model('Organization', OrganizationSchema);
 module.exports = Organization;

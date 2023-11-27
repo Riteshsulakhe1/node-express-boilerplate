@@ -14,7 +14,7 @@ router
 router
   .route('/:taskId')
   .get(auth(), taskController.getTaskById)
-  .put(auth(), validate(taskValidation.createTask), taskController.updateTaskById)
+  .put(auth(), validate(taskValidation.updateTask), taskController.updateTaskById)
   .delete(auth(), taskController.deleteTaskById);
 
 router.route('/static/properties').get(auth(), taskController.getTaskStaticProperties);
