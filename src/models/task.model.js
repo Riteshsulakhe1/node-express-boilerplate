@@ -20,9 +20,9 @@ const TaskSchema = mongoose.Schema(
       enum: [...Object.values(taskType)],
     },
     status: {
-      type: String,
-      enum: [...Object.values(taskStatus)],
-      default: taskStatus.TO_DO,
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'BoardColumn',
+      required: true,
     },
     priority: {
       type: String,
@@ -82,7 +82,7 @@ const TaskSchema = mongoose.Schema(
       required: true,
     },
     sprintId: {
-      type: String,
+      type: mongoose.SchemaTypes.ObjectId,
       required: true,
     },
     sprintIds: {
@@ -93,6 +93,10 @@ const TaskSchema = mongoose.Schema(
       type: Number,
       required: false,
     },
+    isDone: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );

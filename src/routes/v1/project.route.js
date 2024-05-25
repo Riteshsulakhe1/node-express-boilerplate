@@ -4,7 +4,7 @@ const validate = require('../../middlewares/validate');
 const { projectValidation } = require('../../validations');
 const auth = require('../../middlewares/auth');
 const org = require('../../middlewares/organization');
-
+const project = require('../../middlewares/project');
 const router = express.Router();
 
 router
@@ -15,6 +15,16 @@ router
 router
   .route('/:projectId')
   .put(auth(), org.getUserOrg, validate(projectValidation.updateProject), projectController.updateProject);
+
+// Script routes
+router
+  .route('/:projectId/updateTaskStatusWithBordColumnId')
+  .post(auth(), project.getProjectById, projectController.runBoardColumnScript);
+
+// Project Task possible status list
+router
+  .route('/:projectId/getTaskStatusList')
+  .get(auth(), project.getProjectById, projectController.getProjectTaskStatusList);
 
 module.exports = router;
 

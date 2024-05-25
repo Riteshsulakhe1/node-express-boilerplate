@@ -5,6 +5,7 @@ const taskMsg = {
   cloned: 'Task cloned successfully',
   linked: 'Task linked successfully',
   blocked: 'Task blocked successfully',
+  statusUpdated: 'Task status updated successfully'
 };
 
 const storyMsg = {
@@ -20,6 +21,7 @@ const projectMsg = {
   unAuth: "you don't have access to create project. Please contact your admin",
   keyAlreadyExist: 'Project key is already exist. Please use another one',
   idRequired: 'Project id is required',
+  notFound: 'Project not found for the provided id'
 };
 
 const orgMsg = {
@@ -35,10 +37,18 @@ const sprintMsg = {
   completed: 'Sprint completed successfully',
 };
 
+const taskStatusColMsg = {
+  projectIdMissing: 'Please select any project. Project id is required',
+  created: 'New task status column created successfully',
+  updated: 'Task status column name updated successfully',
+  deleted: 'Task status column deleted successfully and tasks moved to another column.',
+}
+
 module.exports = {
   taskMsg,
   storyMsg,
   projectMsg,
   orgMsg,
   sprintMsg,
+  taskStatusColMsg
 };

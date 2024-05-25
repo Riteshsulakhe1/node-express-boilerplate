@@ -40,6 +40,13 @@ const SprintSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    taskIds: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'Task',
+        default: []
+      }
+    ]
   },
   { timestamps: true }
 );

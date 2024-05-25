@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const { sprintService, taskService } = require('../services');
 const catchAsync = require('../utils/catchAsync');
 const { sprintMsg } = require('../utils/messages');
-
+const { addTaskIdsInSprint } = require('../scripts/sprint');
 const getSprints = catchAsync(async (req, res) => {
   if (req.project) {
     const sprints = await sprintService.getSprintsByProjectId(req.project.id);
@@ -39,9 +39,14 @@ const getBoardIssues = catchAsync(async (req, res) => {
   }
 });
 
+const updateSprintCollection = catchAsync(async (req, res) => {
+  const result = await addTaskIdsInSprint();
+  res.status(httpStatus.OK).send(result);
+});
 module.exports = {
   getSprints,
   createNewSprint,
   getBacklogIssues,
-  getBoardIssues
+  getBoardIssues,
+  updateSprintCollection
 };

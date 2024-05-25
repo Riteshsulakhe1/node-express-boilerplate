@@ -6,7 +6,7 @@ const createTask = {
     title: Joi.string().required(),
     type: Joi.string(),
     projectId: Joi.string().required(),
-    sprintId: Joi.string().required(),
+    sprintId: Joi.string().required()
   }),
 };
 
