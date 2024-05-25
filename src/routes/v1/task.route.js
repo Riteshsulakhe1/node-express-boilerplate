@@ -17,6 +17,9 @@ router
   .put(auth(), validate(taskValidation.updateTask), taskController.updateTaskById)
   .delete(auth(), taskController.deleteTaskById);
 
+router
+  .route('/:taskId/updateStatus')
+  .put(auth(), validate(taskValidation.updateTaskStatus), taskController.updateTaskStatus)
 router.route('/static/properties').get(auth(), taskController.getTaskStaticProperties);
 
 module.exports = router;

@@ -25,6 +25,9 @@ sprintRouter
   .route('/getBoard')
   .get(auth(), validate(sprintValidation.getSprints), getProjectById, sprintController.getBoardIssues);
 
+// Private Script route 
+sprintRouter.route('/updateCollectionWithTaskIds')
+  .put(auth(), sprintController.updateSprintCollection);
 module.exports = sprintRouter;
 
 /**

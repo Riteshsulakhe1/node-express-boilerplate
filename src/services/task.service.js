@@ -2,7 +2,8 @@ const httpStatus = require('http-status');
 const { User, Task } = require('../models');
 const ApiError = require('../utils/ApiError');
 const { objectId } = require('../validations/custom.validation');
-
+const { getInitialColumnByProjectId } = require('./boardColumns.service');
+const { Types } = require('mongoose');
 /**
  * To create new task
  * @param {*} taskBody
@@ -59,6 +60,27 @@ const getTasksBySprintId = async (filter, options) => {
   return tasks;
 };
 
+const updateTaskStatus = async (taskId, status) => {
+  const task = await getTask(taskId);
+  if (!task) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Task not found');
+  }
+  Object.assign(task, { status });
+  await task.save();
+  return task;
+};
+
+const getTaskStatus = async (projectId, status) => {
+  if (!status || !(status instanceof mongoose.ObjectId)) {
+    const initialColumn = await getInitialColumnByProjectId(projectId);
+    if (initialColumn) {
+      return Types.ObjectId(initialColumn.id);
+    }
+  } else {
+    return status;
+  }
+}
+
 module.exports = {
   createTask,
   getTask,
@@ -66,4 +88,6 @@ module.exports = {
   deleteTask,
   getUserTasks,
   getTasksBySprintId,
+  updateTaskStatus,
+  getTaskStatus
 };

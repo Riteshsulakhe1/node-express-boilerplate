@@ -1,17 +1,22 @@
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
-const { taskService } = require('../services');
+const { taskService, boardColumnsService } = require('../services');
 const { Types } = require('mongoose');
 const messages = require('../utils/messages').taskMsg;
 const taskProperties = require('../config/task');
+const mongoose = require('mongoose');
 
 /**
  * TO CREATE TASK
  */
 const createTask = catchAsync(async (req, res) => {
   req.body.reportedBy = Types.ObjectId(`${req.user.id}`);
-  const task = await taskService.createTask(req.body);
+  const body = {
+    ...req.body,
+    status: await taskService.getTaskStatus(req.body.projectId, req.body?.status)
+  };
+  const task = await taskService.createTask(body);
   res.status(httpStatus.CREATED).send(task);
 });
 
@@ -63,6 +68,11 @@ const getTaskStaticProperties = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send({ ...taskProperties });
 });
 
+const updateTaskStatus = catchAsync(async (req, res) => {
+  const task = await taskService.updateTaskStatus(req.params.taskId, req.body.toStatus);
+  res.status(200).send({ message: messages.statusUpdated, task });
+});
+
 module.exports = {
   createTask,
   getTaskById,
@@ -70,5 +80,6 @@ module.exports = {
   deleteTaskById,
   getTaskByUserId,
   getTasksBySprintId,
-  getTaskStaticProperties
+  getTaskStaticProperties,
+  updateTaskStatus
 };

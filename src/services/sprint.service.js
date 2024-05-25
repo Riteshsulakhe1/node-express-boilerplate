@@ -62,7 +62,7 @@ const getBacklogIssues = async (projectId) => {
             input: '$tasks',
             as: 'task',
             in: {
-              id: '$$task._id',
+              _id: '$$task._id',
               title: '$$task.title',
               status: '$$task.status',
               type: '$$task.type',
@@ -79,6 +79,7 @@ const getBacklogIssues = async (projectId) => {
 
 const getBoardIssues = async (projectId) => {
   const board = await Sprint.aggregate([
+    // Find the board sprint with status 'In Progress' & request projectId
     {
       $match: {
         projectId: Types.ObjectId(projectId),
@@ -87,34 +88,35 @@ const getBoardIssues = async (projectId) => {
         },
       },
     },
+    // Project the required fields from board sprint
     {
-      $project:
-
-      {
+      $project: {
         _id: 1,
         name: 1,
         projectId: 1,
         durationInWeeks: 1,
         startDate: 1,
         endDate: 1,
+        taskIds: 1
       },
     },
+    // Find the tasks for board sprint
     {
-      $lookup:
-
-      {
+      $lookup: {
         from: "tasks",
         let: {
-          sprintId: "$_id",
+          taskIds: "$taskIds",
         },
         pipeline: [
+          // by matching sprint.id with task sprintId
           {
             $match: {
               $expr: {
-                $eq: ["$sprintId", "$$sprintId"],
+                $in: ["$_id", "$$taskIds"],
               },
             },
           },
+          // Project the required fields from task for board
           {
             $project: {
               _id: 1,
@@ -125,6 +127,7 @@ const getBoardIssues = async (projectId) => {
               flag: 1,
             },
           },
+          // Group all the tasks according to their status i.e board columns id
           {
             $group: {
               _id: "$status",
@@ -134,7 +137,81 @@ const getBoardIssues = async (projectId) => {
             },
           },
         ],
-        as: "board",
+        as: "taskGroupByStatus",
+      },
+    },
+    // Find board columns by projectId and select the required fields from column & sort by index
+    {
+      $lookup: {
+        from: "boardcolumns",
+        let: {
+          projectId: "$projectId",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$projectId", "$$projectId"],
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              name: 1,
+              index: 1,
+              isInitial: 1,
+            },
+          },
+          {
+            $sort: {
+              index: 1,
+            },
+          },
+        ],
+        as: "boardColumns",
+      },
+    },
+    // Now merge the tasks array from 'boards' into the columns and store it in 'board' array
+    {
+      $addFields: {
+        board: {
+          $map: {
+            input: "$boardColumns",
+            as: "column",
+            in: {
+              $mergeObjects: [
+                "$$column",
+                { 'tasks': [] },
+                {
+                  $arrayElemAt: [
+                    {
+                      $filter: {
+                        input: "$taskGroupByStatus",
+                        as: "statusGroupItem",
+                        cond: {
+                          $eq: [
+                            "$$statusGroupItem._id",
+                            "$$column._id",
+                          ],
+                        },
+                      },
+                    },
+                    0,
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    // Remove the 'columns' & 'boards' array because now we have the output in 'board' along with the column details & tasks
+    {
+      $project: {
+        boardColumns: 0,
+        taskGroupByStatus: 0,
+        taskIds: 0
       },
     },
   ]).exec();

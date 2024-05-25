@@ -4,5 +4,6 @@ module.exports = {
   Task: require('./task.model'),
   Organization: require('./organization.model'),
   Project: require('./project.model'),
-  Sprint: require('./sprint.model')
+  Sprint: require('./sprint.model'),
+  BoardColumn: require('./boardColumns.model')
 };
