@@ -17,7 +17,13 @@ const createEmptySprint = async (body, projectKey) => {
   const sprintName = `${projectKey} ${sprintSuffix} ${sprintCount + 1}`;
   body.name = sprintName;
   const sprint = await Sprint.create(body);
-  return sprint;
+  // Replace id with _id field 
+  const modifiedSprint = {
+    ...sprint.toObject(),
+    _id: sprint.id
+  };
+  delete modifiedSprint.id;
+  return modifiedSprint;
 };
 
 const getTotalSprintCount = async (projectId) => Sprint.countDocuments({ projectId, isDefault: false });
@@ -218,10 +224,24 @@ const getBoardIssues = async (projectId) => {
   return board;
 };
 
+const updateTaskIdInSprint = async (sprintId, taskId) => {
+  const sprint = await Sprint.updateOne(
+    { _id: Types.ObjectId(sprintId) },
+    { $push: { taskIds: taskId } }
+  );
+  return sprint;
+};
+
+const getSprintListByProjectId = async (projectId) => {
+  return await Sprint.find({ projectId: Types.ObjectId(projectId) }, { _id: 1, name: 1 });
+};
+
 module.exports = {
   createBacklogSprint,
   createEmptySprint,
   getSprintsByProjectId,
   getBacklogIssues,
-  getBoardIssues
+  getBoardIssues,
+  updateTaskIdInSprint,
+  getSprintListByProjectId
 };

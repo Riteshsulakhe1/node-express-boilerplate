@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const catchAsync = require('../utils/catchAsync');
-const { taskService, boardColumnsService } = require('../services');
+const { taskService, boardColumnsService, sprintService } = require('../services');
 const { Types } = require('mongoose');
 const messages = require('../utils/messages').taskMsg;
 const taskProperties = require('../config/task');
@@ -17,6 +17,7 @@ const createTask = catchAsync(async (req, res) => {
     status: await taskService.getTaskStatus(req.body.projectId, req.body?.status)
   };
   const task = await taskService.createTask(body);
+  await sprintService.updateTaskIdInSprint(req.body.sprintId, task._id);
   res.status(httpStatus.CREATED).send(task);
 });
 

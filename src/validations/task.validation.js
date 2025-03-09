@@ -1,12 +1,15 @@
 const Joi = require('joi');
-const { objectId } = require('./custom.validation');
+const { objectId, priority } = require('./custom.validation');
 
 const createTask = {
   body: Joi.object().keys({
     title: Joi.string().required(),
     type: Joi.string(),
     projectId: Joi.string().required(),
-    sprintId: Joi.string().required()
+    sprintId: Joi.string().required(),
+    status: Joi.custom(objectId).optional(),
+    description: Joi.string().optional(),
+    priority: Joi.custom(priority).optional()
   }),
 };
 

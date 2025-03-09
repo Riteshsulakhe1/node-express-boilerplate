@@ -26,6 +26,9 @@ router
   .route('/:projectId/getTaskStatusList')
   .get(auth(), project.getProjectById, projectController.getProjectTaskStatusList);
 
+// Project sprint list
+router.route('/:projectId/getSprintList').get(auth(), project.getProjectById, projectController.getProjectSprintList);
+
 module.exports = router;
 
 /**
