@@ -68,6 +68,15 @@ const getProjectTaskStatusList = catchAsync(async (req, res) => {
   }
 });
 
+const getProjectSprintList = catchAsync(async (req, res) => {
+  if (req.project) {
+    const sprintList = await sprintService.getSprintListByProjectId(req.project.id);
+    res.status(200).send({ sprintList });
+  } else {
+    res.status(httpStatus.NOT_FOUND).send({ message: projectMsg.notFound });
+  }
+});
+
 const runBoardColumnScript = catchAsync(async (req, res, next) => {
   projectScript.createDefaultBoardColumnsForProject(req, res);
 });
@@ -77,5 +86,6 @@ module.exports = {
   updateProject,
   getProjects,
   runBoardColumnScript,
-  getProjectTaskStatusList
+  getProjectTaskStatusList,
+  getProjectSprintList
 };

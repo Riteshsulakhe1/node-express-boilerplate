@@ -1,3 +1,4 @@
+const { taskPriority } = require('../config/task');
 const objectId = (value, helpers) => {
   if (!value.match(/^[0-9a-fA-F]{24}$/)) {
     return helpers.message('"{{#label}}" must be a valid mongo id');
@@ -15,7 +16,16 @@ const password = (value, helpers) => {
   return value;
 };
 
+const priority = (value, helpers) => {
+  const allowedPriorities = Object.values(taskPriority);
+  if (allowedPriorities.indexOf(value) === -1) {
+    return helpers.message(`Allowed Task priority values are ${allowedPriorities.join(',')}`)
+  }
+  return value;
+};
+
 module.exports = {
   objectId,
   password,
+  priority
 };

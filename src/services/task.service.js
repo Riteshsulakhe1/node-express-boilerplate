@@ -1,9 +1,8 @@
 const httpStatus = require('http-status');
 const { User, Task } = require('../models');
 const ApiError = require('../utils/ApiError');
-const { objectId } = require('../validations/custom.validation');
 const { getInitialColumnByProjectId } = require('./boardColumns.service');
-const { Types } = require('mongoose');
+const { Types, ObjectId } = require('mongoose');
 /**
  * To create new task
  * @param {*} taskBody
@@ -71,7 +70,7 @@ const updateTaskStatus = async (taskId, status) => {
 };
 
 const getTaskStatus = async (projectId, status) => {
-  if (!status || !(status instanceof mongoose.ObjectId)) {
+  if (!status || !(status instanceof ObjectId)) {
     const initialColumn = await getInitialColumnByProjectId(projectId);
     if (initialColumn) {
       return Types.ObjectId(initialColumn.id);

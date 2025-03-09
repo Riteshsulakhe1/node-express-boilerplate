@@ -43,6 +43,7 @@ const sendResetPasswordEmail = async (to, token) => {
   const text = `Dear user,
 To reset your password, click on this link: ${resetPasswordUrl}
 If you did not request any password resets, then ignore this email.`;
+  console.log('sendResetPasswordEmail==>', resetPasswordUrl);
   await sendEmail(to, subject, text);
 };
 
